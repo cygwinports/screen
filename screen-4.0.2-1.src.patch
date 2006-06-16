@@ -1,0 +1,614 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/attacher.c src/screen-4.0.2/attacher.c
+--- origsrc/screen-4.0.2/attacher.c	2003-09-08 09:24:48.000000000 -0500
++++ src/screen-4.0.2/attacher.c	2006-05-24 15:34:28.000000000 -0500
+@@ -274,7 +274,7 @@
+     }
+   debug1("Attach decided, it is '%s'\n", SockPath);
+   debug1("Attach found MasterPid == %d\n", MasterPid);
+-  if (stat(SockPath, &st) == -1)
++  if (screen_stat(SockPath, &st) == -1)
+     Panic(errno, "stat %s", SockPath);
+   if ((st.st_mode & 0600) != 0600)
+     Panic(0, "Socket is in wrong mode (%03o)", (int)st.st_mode);
+@@ -420,7 +420,7 @@
+   debug("AttacherFinit();\n");
+   signal(SIGHUP, SIG_IGN);
+   /* Check if signal comes from backend */
+-  if (stat(SockPath, &statb) == 0 && (statb.st_mode & 0777) != 0600)
++  if (screen_stat(SockPath, &statb) == 0 && (statb.st_mode & 0777) != 0600)
+     {
+       debug("Detaching backend!\n");
+       bzero((char *) &m, sizeof(m));
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/configure.in src/screen-4.0.2/configure.in
+--- origsrc/screen-4.0.2/configure.in	2003-06-03 06:58:24.000000000 -0500
++++ src/screen-4.0.2/configure.in	2006-05-24 15:34:28.031250000 -0500
+@@ -270,7 +270,7 @@
+ dnl     multiuser screen sessions
+ AC_CHECKING(seteuid)
+ AC_TRY_LINK(,[
+-#if defined(linux) || defined(NeXT) || defined(_AUX_SOURCE) || defined(AUX) || defined(ultrix) || (defined(sun) && defined(SVR4)) || defined(ISC) || defined(sony_news)
++#if defined(linux) || defined(NeXT) || defined(_AUX_SOURCE) || defined(AUX) || defined(ultrix) || (defined(sun) && defined(SVR4)) || defined(ISC) || defined(sony_news) || defined (__CYGWIN__)
+ seteuid_is_broken(0);
+ #else
+ seteuid(0);
+@@ -326,7 +326,7 @@
+   if (stat(fin, &stb) || (stb.st_mode & S_IFIFO) != S_IFIFO)
+     exit(1);
+   close(0);
+-#ifdef __386BSD__
++#if __386BSD__ || __CYGWIN__
+   /*
+    * The next test fails under 386BSD, but screen works using fifos.
+    * Fifos in O_RDWR mode are only used for the BROKEN_PIPE case and for
+@@ -561,7 +561,7 @@
+   int f;
+ #endif
+ 
+-#ifdef __FreeBSD__
++#if __FreeBSD__ || __CYGWIN__
+ /* From Andrew A. Chernov (ache@astral.msk.su):
+  * opening RDWR fifo fails in BSD 4.4, but select return values are
+  * right.
+@@ -882,7 +882,7 @@
+ 
+ if test -z "$load" ; then
+ AC_EGREP_CPP(yes,
+-[#if defined(NeXT) || defined(apollo) || defined(linux)
++[#if defined(NeXT) || defined(apollo) || defined(linux) || defined (__CYGWIN__)
+   yes;
+ #endif
+ ], load=1)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/display.c src/screen-4.0.2/display.c
+--- origsrc/screen-4.0.2/display.c	2003-12-05 07:45:41.000000000 -0600
++++ src/screen-4.0.2/display.c	2006-05-24 15:34:28.046875000 -0500
+@@ -94,6 +94,9 @@
+ /*
+  * tputs needs this to calculate the padding
+  */
++#if defined(__CYGWIN__) && !defined(NCURSES_STATIC)
++__declspec(dllimport)
++#endif
+ #ifndef NEED_OSPEED
+ extern
+ #endif /* NEED_OSPEED */
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/extern.h src/screen-4.0.2/extern.h
+--- origsrc/screen-4.0.2/extern.h	2003-08-22 07:27:57.000000000 -0500
++++ src/screen-4.0.2/extern.h	2006-05-24 15:34:28.062500000 -0500
+@@ -490,3 +490,19 @@
+ # endif
+ #endif
+ extern int   EncodeChar __P((char *, int, int, int *));
++
++#ifdef CYGWIN_FILEMODE
++extern int screen_stat __P((char *, struct stat *));
++extern int screen_chmod __P((char *, mode_t));
++# ifdef NAMEDPIPE
++extern int screen_mkfifo __P((char *, mode_t));
++# endif
++extern int screen_unlink __P((char *));
++#else /* CYGWIN_FILEMODE */
++# define screen_stat(path, st) stat(path, st)
++# define screen_chmod(path, mode) chmod(path, mode)
++# ifdef NAMEDPIPE
++#  define screen_mkfifo(path, mode) mkfifo(path, mode)
++# endif
++# define screen_unlink(path) unlink(path)
++#endif /* CYGWIN_FILEMODE */
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/loadav.c src/screen-4.0.2/loadav.c
+--- origsrc/screen-4.0.2/loadav.c	2003-09-08 09:25:51.000000000 -0500
++++ src/screen-4.0.2/loadav.c	2006-05-24 15:34:28.078125000 -0500
+@@ -53,7 +53,7 @@
+ 
+ /***************************************************************/
+ 
+-#if defined(linux) && !defined(LOADAV_DONE)
++#if (defined(linux) || defined (__CYGWIN__)) && !defined(LOADAV_DONE)
+ #define LOADAV_DONE
+ /*
+  * This is the easy way. It relies in /proc being mounted.
+@@ -107,7 +107,7 @@
+     }
+   return i;
+ }
+-#endif /* linux */
++#endif /* linux || __CYGWIN__ */
+ 
+ /***************************************************************/
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/misc.c src/screen-4.0.2/misc.c
+--- origsrc/screen-4.0.2/misc.c	2003-12-05 07:45:41.000000000 -0600
++++ src/screen-4.0.2/misc.c	2006-05-24 15:34:28.093750000 -0500
+@@ -613,11 +613,11 @@
+    */
+ # endif /* NEEDSETENV */
+ #else /* USESETENV */
+-# if defined(linux) || defined(__convex__) || (BSD >= 199103)
++# if defined(linux) || defined(__convex__) || (BSD >= 199103) || defined (__CYGWIN__)
+   setenv(var, value, 1);
+ # else
+   setenv(var, value);
+-# endif /* linux || convex || BSD >= 199103 */
++# endif /* linux || convex || BSD >= 199103 || __CYGWIN__ */
+ #endif /* USESETENV */
+ }
+ 
+@@ -632,6 +632,9 @@
+ int (*outc) __P((int));
+ {
+   int pad;
++#if defined(__CYGWIN__) && !defined(NCURSES_STATIC)
++__declspec(dllimport)
++#endif
+   extern short ospeed;
+   static short osp2pad[] = {
+     0,2000,1333,909,743,666,500,333,166,83,55,41,20,10,5,2,1,1
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/os.h src/screen-4.0.2/os.h
+--- origsrc/screen-4.0.2/os.h	2002-01-08 09:42:33.000000000 -0600
++++ src/screen-4.0.2/os.h	2006-05-24 15:34:28.109375000 -0500
+@@ -32,9 +32,9 @@
+ # define hpux
+ #endif
+ 
+-#if defined(__bsdi__) || defined(__386BSD__) || defined(_CX_UX) || defined(hpux) || defined(_IBMR2) || defined(linux)
++#if defined(__bsdi__) || defined(__386BSD__) || defined(_CX_UX) || defined(hpux) || defined(_IBMR2) || defined(linux) || defined (__CYGWIN__)
+ # include <signal.h>
+-#endif /* __bsdi__ || __386BSD__ || _CX_UX || hpux || _IBMR2 || linux */
++#endif /* __bsdi__ || __386BSD__ || _CX_UX || hpux || _IBMR2 || linux || __CYGWIN__ */
+ 
+ #ifdef ISC
+ # ifdef ENAMETOOLONG
+@@ -260,7 +260,7 @@
+ #endif
+ 
+ #if defined(UTMPOK) || defined(BUGGYGETLOGIN)
+-# if defined(SVR4) && !defined(DGUX) && !defined(__hpux) && !defined(linux)
++# if defined(SVR4) && !defined(DGUX) && !defined(__hpux) && !defined(linux) && !defined (__CYGWIN__)
+ #  include <utmpx.h>
+ #  define UTMPFILE	UTMPX_FILE
+ #  define utmp		utmpx
+@@ -411,7 +411,7 @@
+ #endif
+ 
+ /* Geeeee, reverse it? */
+-#if defined(SVR4) || (defined(SYSV) && defined(ISC)) || defined(_AIX) || defined(linux) || defined(ultrix) || defined(__386BSD__) || defined(__bsdi__) || defined(POSIX) || defined(NeXT)
++#if defined(SVR4) || (defined(SYSV) && defined(ISC)) || defined(_AIX) || defined(linux) || defined(ultrix) || defined(__386BSD__) || defined(__bsdi__) || defined(POSIX) || defined(NeXT) || defined (__CYGWIN__)
+ # define SIGHASARG
+ #endif
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/osdef.sh src/screen-4.0.2/osdef.sh
+--- origsrc/screen-4.0.2/osdef.sh	2001-06-18 12:08:15.000000000 -0500
++++ src/screen-4.0.2/osdef.sh	2006-05-24 15:34:28.125000000 -0500
+@@ -24,7 +24,7 @@
+ #ifndef sun
+ #include <sys/ioctl.h>
+ #endif
+-#ifdef linux
++#if defined(linux) || defined (__CYGWIN__)
+ #include <string.h>
+ #include <stdlib.h>
+ #endif
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/pty.c src/screen-4.0.2/pty.c
+--- origsrc/screen-4.0.2/pty.c	2003-09-08 09:26:18.000000000 -0500
++++ src/screen-4.0.2/pty.c	2006-05-24 15:34:28.125000000 -0500
+@@ -34,7 +34,7 @@
+ #endif
+ 
+ /* for solaris 2.1, Unixware (SVR4.2) and possibly others */
+-#ifdef HAVE_SVR4_PTYS
++#if defined(HAVE_SVR4_PTYS) && !defined(__CYGWIN__)
+ # include <sys/stropts.h>
+ #endif
+ 
+@@ -131,7 +131,7 @@
+ {
+   if (f < 0)
+     return;
+-#if defined(I_PUSH) && defined(HAVE_SVR4_PTYS) && !defined(sgi) && !defined(linux) && !defined(__osf__) && !defined(M_UNIX)
++#if defined(I_PUSH) && defined(HAVE_SVR4_PTYS) && !defined(sgi) && !defined(linux) && !defined(__osf__) && !defined(M_UNIX) && !defined (__CYGWIN__)
+   if (ioctl(f, I_PUSH, "ptem"))
+     Panic(errno, "InitPTY: cannot I_PUSH ptem");
+   if (ioctl(f, I_PUSH, "ldterm"))
+@@ -249,13 +249,13 @@
+   register int f;
+   char *m, *ptsname();
+   int unlockpt __P((int)), grantpt __P((int));
+-#if defined(HAVE_GETPT) && defined(linux)
++#if defined(HAVE_GETPT) && (defined(linux) || defined (__CYGWIN__))
+   int getpt __P((void));
+ #endif
+   sigret_t (*sigcld)__P(SIGPROTOARG);
+ 
+   strcpy(PtyName, "/dev/ptmx");
+-#if defined(HAVE_GETPT) && defined(linux)
++#if defined(HAVE_GETPT) && (defined(linux) || defined (__CYGWIN__))
+   if ((f = getpt()) == -1)
+ #else
+   if ((f = open(PtyName, O_RDWR | O_NOCTTY)) == -1)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/resize.c src/screen-4.0.2/resize.c
+--- origsrc/screen-4.0.2/resize.c	2003-09-08 09:26:31.000000000 -0500
++++ src/screen-4.0.2/resize.c	2006-05-24 15:34:28.140625000 -0500
+@@ -993,7 +993,11 @@
+ 
+   /* signal new size to window */
+ #ifdef TIOCSWINSZ
++#ifndef __CYGWIN__
+   if (wi && (p->w_width != wi || p->w_height != he) && p->w_ptyfd >= 0 && p->w_pid)
++#else
++  if (wi && (p->w_width != wi || p->w_height != he) && p->w_ptyfd >= 0)
++#endif
+     {
+       glwz.ws_col = wi;
+       glwz.ws_row = he;
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/screen.c src/screen-4.0.2/screen.c
+--- origsrc/screen-4.0.2/screen.c	2003-09-08 09:26:41.000000000 -0500
++++ src/screen-4.0.2/screen.c	2006-05-24 15:34:28.296875000 -0500
+@@ -890,7 +890,7 @@
+   if (!detached && !lsflag && !cmdflag && !(dflag && !mflag && !rflag && !xflag))
+     {
+       /* ttyname implies isatty */
+-      if (!(attach_tty = ttyname(0)))
++      if (!(attach_tty = strdup(ttyname(0))))
+         Panic(0, "Must be connected to a terminal.");
+       if (strlen(attach_tty) >= MAXPATHLEN)
+ 	Panic(0, "TtyName too long - sorry.");
+@@ -992,8 +992,10 @@
+ 	      n = (eff_uid == 0 && (real_uid || (st.st_mode & 0775) != 0775)) ? 0755 :
+ 	          (eff_gid == (int)st.st_gid && eff_gid != real_gid) ? 0775 :
+ 		  0777;
++#if !defined(__CYGWIN__)
+ 	      if (((int)st.st_mode & 0777) != n)
+ 		Panic(0, "Directory '%s' must have mode %03o.", SockDir, n);
++#endif
+ 	    }
+ 	  sprintf(SockPath, "%s/S-%s", SockDir, LoginName);
+ 	  if (access(SockPath, F_OK))
+@@ -1023,8 +1025,10 @@
+       if ((int)st.st_uid != real_uid)
+ 	Panic(0, "You are not the owner of %s.", SockPath);
+     }
++#if !defined(__CYGWIN__)
+   if ((st.st_mode & 0777) != 0700)
+     Panic(0, "Directory %s must have mode 700.", SockPath);
++#endif
+   if (SockMatch && index(SockMatch, '/'))
+     Panic(0, "Bad session name '%s'", SockMatch);
+   SockName = SockPath + strlen(SockPath) + 1;
+@@ -1070,7 +1074,7 @@
+       char *sty = 0;
+ 
+       /* attach_tty is not mandatory */
+-      if ((attach_tty = ttyname(0)) == 0)
++      if ((attach_tty = strdup(ttyname(0))) == 0)
+         attach_tty = "";
+       if (strlen(attach_tty) >= MAXPATHLEN)
+ 	Panic(0, "TtyName too long - sorry.");
+@@ -1418,7 +1422,7 @@
+       signal(SIGCHLD, SigChld);
+ #endif
+     }
+-  if (stat(SockPath, &st) == -1)
++  if (screen_stat(SockPath, &st) == -1)
+     {
+       debug1("SigChldHandler: Yuck! cannot stat '%s'\n", SockPath);
+       if (!RecoverSocket())
+@@ -1637,7 +1641,7 @@
+       xseteuid(real_uid);
+       xsetegid(real_gid);
+ #endif
+-      (void) unlink(SockPath);
++      (void) screen_unlink(SockPath);
+ #ifdef USE_SETEUID
+       xseteuid(eff_uid);
+       xsetegid(eff_gid);
+@@ -1675,7 +1679,7 @@
+       debug1("we unlink(%s)\n", SockPath);
+       setgid(real_gid);
+       setuid(real_uid);
+-      (void) unlink(SockPath);
++      (void) screen_unlink(SockPath);
+     }
+   exit(e);
+ }
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/socket.c src/screen-4.0.2/socket.c
+--- origsrc/screen-4.0.2/socket.c	2003-09-08 09:26:50.000000000 -0500
++++ src/screen-4.0.2/socket.c	2006-05-24 15:34:28.312500000 -0500
+@@ -181,7 +181,7 @@
+       errno = 0;
+       debug2("uid = %d, gid = %d\n", getuid(), getgid());
+       debug2("euid = %d, egid = %d\n", geteuid(), getegid());
+-      if (stat(SockPath, &st))
++      if (screen_stat(SockPath, &st))
+ 	{
+ 	  debug1("errno = %d\n", errno);
+ 	  continue;
+@@ -260,7 +260,7 @@
+ 	  sent->mode = -1;
+ 	  if (wipeflag)
+ 	    {
+-	      if (unlink(SockPath) == 0)
++	      if (screen_unlink(SockPath) == 0)
+ 		{
+ 		  sent->mode = -2;
+ 		  nwipe++;
+@@ -416,7 +416,7 @@
+ 	  eexit(11);
+ 	}
+       Msg(0, "There is already a screen running on %s.", Filename(SockPath));
+-      if (stat(SockPath, &st) == -1)
++      if (screen_stat(SockPath, &st) == -1)
+ 	Panic(errno, "stat");
+       if ((int)st.st_uid != real_uid)
+ 	Panic(0, "Unfortunatelly you are not its owner.");
+@@ -442,8 +442,8 @@
+ # else /* !USE_SETEUID */
+   if (UserContext() > 0)
+     {
+-      (void) unlink(SockPath);
+-      UserReturn(mkfifo(SockPath, SOCKMODE));
++      (void) screen_unlink(SockPath);
++      UserReturn(screen_mkfifo(SockPath, SOCKMODE));
+     }
+   if (UserStatus())
+     Panic(0, "mkfifo %s failed", SockPath);
+@@ -508,7 +508,7 @@
+ 	  eexit(11);
+ 	}
+       Msg(0, "There is already a screen running on %s.", Filename(SockPath));
+-      if (stat(SockPath, &st) == -1)
++      if (screen_stat(SockPath, &st) == -1)
+ 	Panic(errno, "stat");
+       if (st.st_uid != real_uid)
+ 	Panic(0, "Unfortunatelly you are not its owner.");
+@@ -523,7 +523,7 @@
+   if ((s = socket(AF_UNIX, SOCK_STREAM, 0)) == -1)
+     Panic(errno, "reopen socket");
+ #endif
+-  (void) unlink(SockPath);
++  (void) screen_unlink(SockPath);
+   if (bind(s, (struct sockaddr *) & a, strlen(SockPath) + 2) == -1)
+     Panic(errno, "bind (%s)", SockPath);
+ #ifdef SOCK_NOT_IN_FS
+@@ -534,7 +534,7 @@
+       close(f);
+     }
+ #else
+-  chmod(SockPath, SOCKMODE);
++  screen_chmod(SockPath, SOCKMODE);
+ # ifndef USE_SETEUID
+   chown(SockPath, real_uid, real_gid);
+ # endif
+@@ -908,7 +908,11 @@
+ 	  Msg(0, "Attach attempt with bad pid(%d)!", m.m.attach.apid);
+           break;
+ 	}
++#ifndef O_NOCTTY
+       if ((i = secopen(m.m_tty, O_RDWR | O_NONBLOCK, 0)) < 0)
++#else /* O_NOCTTY */
++      if ((i = secopen(m.m_tty, O_RDWR | O_NONBLOCK | O_NOCTTY, 0)) < 0)
++#endif
+ 	{
+ 	  Msg(errno, "Attach: Could not open %s!", m.m_tty);
+ 	  Kill(m.m.attach.apid, SIG_BYE);
+@@ -1067,7 +1071,7 @@
+       if (UserContext() <= 0)
+         return UserStatus();
+     }
+-  r = chmod(SockPath, SOCKMODE);
++  r = screen_chmod(SockPath, SOCKMODE);
+   /* 
+    * Sockets usually reside in the /tmp/ area, where sysadmin scripts
+    * may be happy to remove old files. We manually prevent the socket
+@@ -1090,11 +1094,11 @@
+   if ((int)geteuid() != real_uid)
+     {
+       if (UserContext() > 0)
+-	UserReturn(unlink(SockPath));
++	UserReturn(screen_unlink(SockPath));
+       (void)UserStatus();
+     }
+   else
+-    (void) unlink(SockPath);
++    (void) screen_unlink(SockPath);
+ 
+   if ((ServerSocket = MakeServerSocket()) < 0)
+     return 0;
+@@ -1424,3 +1428,160 @@
+   EffectiveAclUser = 0;
+ #endif
+ }
++
++#ifdef CYGWIN_FILEMODE
++/* On cygwin (without ntea/ntsec), the mode of the UNIX domain
++ * socket is always either 755 or 655. Unfortunately, screen
++ * saves the socket state as the file mode.
++ *
++ * Therefore, we emulate the file mode, creating a special
++ * key file. This is ugly and possibly unsecure hack, but not
++ * critical on single-user system.
++ *
++ * If you found any bug, mail me:
++ *   AIDA Shinra <aida_s@mx12.freecom.ne.jp>
++ */
++
++static char *GetModeKeyPath __P((char *));
++static int CreateModeKeyFile __P((char *, mode_t));
++static int ReadModeKeyFile __P((char *, mode_t *));
++static char modekey_format[] = "$$ screen: socket mode=0%o $$\n";
++
++int
++screen_stat(path, st)
++char *path;
++struct stat *st;
++{
++  mode_t modetmp;
++
++  if (stat(SockPath, st))
++    return -1;
++  if (!ReadModeKeyFile(path, &modetmp))
++    st->st_mode = (st->st_mode & ~07777) | modetmp;
++  errno = 0;
++  return 0;
++}
++
++int
++screen_chmod(path, mode)
++char *path;
++mode_t mode;
++{
++  if (chmod(path, mode))
++    return -1;
++  CreateModeKeyFile(path, mode);
++  errno = 0;
++  return 0;
++}
++
++#ifdef NAMEDPIPE
++int
++screen_mkfifo(path, mode)
++char *path;
++mode_t mode;
++{
++  if (mkfifo(path, mode))
++    return -1;
++  CreateModeKeyFile(path, mode);
++  errno = 0;
++  return 0;
++}
++#endif
++
++int
++screen_unlink(path)
++char *path;
++{
++  char *modekey_path;
++  
++  if (unlink(path))
++    return -1;
++  if ((modekey_path = GetModeKeyPath(path)) == NULL)
++    return -1;
++  unlink(modekey_path);
++  free(modekey_path);
++  errno = 0;
++  return 0;
++}
++
++static char *
++GetModeKeyPath(path)
++char *path;
++{
++  char *keypath;
++  char *base;
++
++  keypath = malloc(strlen(path) + 7);
++  if (keypath == NULL) {
++    Panic (0, strnomem);
++    return NULL;
++  }
++  base = strrchr(path, '/');
++  if (base == NULL)
++    base = path;
++  else
++    base++;
++  strncpy(keypath, path, base-path);
++  sprintf(keypath+(base-path), ".%s.mode", base);
++  return keypath;
++}
++
++static int
++CreateModeKeyFile(path, mode)
++char *path;
++mode_t mode;
++{
++  int err = 0;
++  char *modekey_path;
++  FILE *keyfile;
++
++  if ((modekey_path = GetModeKeyPath(path)) == NULL)
++    return -1;
++  if ((keyfile = fopen(modekey_path, "w")) == NULL) {
++    err = errno;
++  } else {
++    errno = 0;
++    fprintf(keyfile, modekey_format, (unsigned int)mode);
++    if (errno)
++      err = errno;
++    if (fclose(keyfile))
++      err = errno;
++# ifndef USE_SETEUID
++    if (chown(modekey_path, getuid(), getgid()))
++      err = errno;
++# endif
++  }
++  free(modekey_path);
++  errno = err;
++  return (err) ? -1 : 0;
++}
++
++static int
++ReadModeKeyFile(path, modep)
++char *path;
++mode_t *modep;
++{
++  int err = 0;
++  char *modekey_path;
++  FILE *keyfile;
++  unsigned int mode_u;
++
++  if ((modekey_path = GetModeKeyPath(path)) == NULL)
++    return -1;
++
++  if ((keyfile = fopen(modekey_path, "r")) == NULL) {
++    err = errno;
++  } else {
++    if (fscanf(keyfile, modekey_format, &mode_u) != 1)
++      err=errno;
++    if (fclose(keyfile))
++      err=errno;
++  }
++  free(modekey_path);
++  errno = err;
++  if (err)
++    return -1;
++  *modep = (mode_t)mode_u;
++  return 0;
++}
++#endif /* CYGWIN_FILEMODE */
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/utmp.c src/screen-4.0.2/utmp.c
+--- origsrc/screen-4.0.2/utmp.c	2003-09-08 09:27:17.000000000 -0500
++++ src/screen-4.0.2/utmp.c	2006-05-24 15:34:28.328125000 -0500
+@@ -89,7 +89,7 @@
+ static int  initutmp __P((void));
+ static void setutent __P((void));
+ #endif
+-#if defined(linux) && defined(GETUTENT)
++#if (defined(linux) || defined (__CYGWIN__)) && defined(GETUTENT)
+ static struct utmp *xpututline __P((struct utmp *utmp));
+ # define pututline xpututline
+ #endif
+@@ -589,7 +589,7 @@
+ struct utmp *u;
+ {
+   u->ut_type = DEAD_PROCESS;
+-#if !defined(linux) || defined(EMPTY)
++#if (!defined(linux) && !defined (__CYGWIN__)) || defined(EMPTY)
+   u->ut_exit.e_termination = 0;
+   u->ut_exit.e_exit = 0;
+ #endif
+@@ -607,7 +607,7 @@
+   u->ut_type = USER_PROCESS;
+   strncpy(u->ut_user, user, sizeof(u->ut_user));
+   /* Now the tricky part... guess ut_id */
+-#if defined(sgi) || defined(linux)
++#if defined(sgi) || defined(linux) || defined (__CYGWIN__)
+   strncpy(u->ut_id, line + 3, sizeof(u->ut_id));
+ #else /* sgi */
+ # ifdef _IBMR2
+@@ -858,7 +858,7 @@
+ }
+ # endif /* BUGGYGETLOGIN */
+ 
+-#if defined(linux) && defined(GETUTENT)
++#if (defined(linux) || defined (__CYGWIN__)) && defined(GETUTENT)
+ # undef pututline
+ 
+ /* aargh, linux' pututline returns void! */
