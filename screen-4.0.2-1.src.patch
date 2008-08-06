@@ -1,4 +1,3 @@
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/attacher.c src/screen-4.0.2/attacher.c
 --- origsrc/screen-4.0.2/attacher.c	2003-09-08 09:24:48.000000000 -0500
 +++ src/screen-4.0.2/attacher.c	2006-05-24 15:34:28.000000000 -0500
 @@ -274,7 +274,7 @@
@@ -19,7 +18,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
      {
        debug("Detaching backend!\n");
        bzero((char *) &m, sizeof(m));
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/configure.in src/screen-4.0.2/configure.in
 --- origsrc/screen-4.0.2/configure.in	2003-06-03 06:58:24.000000000 -0500
 +++ src/screen-4.0.2/configure.in	2006-05-24 15:34:28.031250000 -0500
 @@ -270,7 +270,7 @@
@@ -58,7 +56,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
    yes;
  #endif
  ], load=1)
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/display.c src/screen-4.0.2/display.c
 --- origsrc/screen-4.0.2/display.c	2003-12-05 07:45:41.000000000 -0600
 +++ src/screen-4.0.2/display.c	2006-05-24 15:34:28.046875000 -0500
 @@ -94,6 +94,9 @@
@@ -71,7 +68,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
  #ifndef NEED_OSPEED
  extern
  #endif /* NEED_OSPEED */
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/extern.h src/screen-4.0.2/extern.h
 --- origsrc/screen-4.0.2/extern.h	2003-08-22 07:27:57.000000000 -0500
 +++ src/screen-4.0.2/extern.h	2006-05-24 15:34:28.062500000 -0500
 @@ -490,3 +490,19 @@
@@ -94,7 +90,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
 +# endif
 +# define screen_unlink(path) unlink(path)
 +#endif /* CYGWIN_FILEMODE */
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/loadav.c src/screen-4.0.2/loadav.c
 --- origsrc/screen-4.0.2/loadav.c	2003-09-08 09:25:51.000000000 -0500
 +++ src/screen-4.0.2/loadav.c	2006-05-24 15:34:28.078125000 -0500
 @@ -53,7 +53,7 @@
@@ -115,7 +110,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
  
  /***************************************************************/
  
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/misc.c src/screen-4.0.2/misc.c
 --- origsrc/screen-4.0.2/misc.c	2003-12-05 07:45:41.000000000 -0600
 +++ src/screen-4.0.2/misc.c	2006-05-24 15:34:28.093750000 -0500
 @@ -613,11 +613,11 @@
@@ -142,7 +136,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
    extern short ospeed;
    static short osp2pad[] = {
      0,2000,1333,909,743,666,500,333,166,83,55,41,20,10,5,2,1,1
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/os.h src/screen-4.0.2/os.h
 --- origsrc/screen-4.0.2/os.h	2002-01-08 09:42:33.000000000 -0600
 +++ src/screen-4.0.2/os.h	2006-05-24 15:34:28.109375000 -0500
 @@ -32,9 +32,9 @@
@@ -175,7 +168,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
  # define SIGHASARG
  #endif
  
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/osdef.sh src/screen-4.0.2/osdef.sh
 --- origsrc/screen-4.0.2/osdef.sh	2001-06-18 12:08:15.000000000 -0500
 +++ src/screen-4.0.2/osdef.sh	2006-05-24 15:34:28.125000000 -0500
 @@ -24,7 +24,7 @@
@@ -187,7 +179,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
  #include <string.h>
  #include <stdlib.h>
  #endif
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/pty.c src/screen-4.0.2/pty.c
 --- origsrc/screen-4.0.2/pty.c	2003-09-08 09:26:18.000000000 -0500
 +++ src/screen-4.0.2/pty.c	2006-05-24 15:34:28.125000000 -0500
 @@ -34,7 +34,7 @@
@@ -224,7 +215,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
    if ((f = getpt()) == -1)
  #else
    if ((f = open(PtyName, O_RDWR | O_NOCTTY)) == -1)
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/resize.c src/screen-4.0.2/resize.c
 --- origsrc/screen-4.0.2/resize.c	2003-09-08 09:26:31.000000000 -0500
 +++ src/screen-4.0.2/resize.c	2006-05-24 15:34:28.140625000 -0500
 @@ -993,7 +993,11 @@
@@ -239,7 +229,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
      {
        glwz.ws_col = wi;
        glwz.ws_row = he;
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/screen.c src/screen-4.0.2/screen.c
 --- origsrc/screen-4.0.2/screen.c	2003-09-08 09:26:41.000000000 -0500
 +++ src/screen-4.0.2/screen.c	2006-05-24 15:34:28.296875000 -0500
 @@ -890,7 +890,7 @@
@@ -309,7 +298,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
      }
    exit(e);
  }
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/socket.c src/screen-4.0.2/socket.c
 --- origsrc/screen-4.0.2/socket.c	2003-09-08 09:26:50.000000000 -0500
 +++ src/screen-4.0.2/socket.c	2006-05-24 15:34:28.312500000 -0500
 @@ -181,7 +181,7 @@
@@ -573,7 +561,6 @@ diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depco
 +  return 0;
 +}
 +#endif /* CYGWIN_FILEMODE */
-diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x ltmain.sh -x 'config.*' -x depcomp -x install-sh -x missing -x mkinstalldirs -x autom4te.cache -x '*compile' -x 'intltool*.in' -x 'xml-i18n-*.in' -x '*.pyc' -x '*.mo' -x '*.gmo' -x ABOUT-NLS -x Makevars.template -x COPYING -x INSTALL -x '*.orig' -x '*.rej' -x '*~' -x '*.temp' -x texinfo.tex -x ylwrap -x configure origsrc/screen-4.0.2/utmp.c src/screen-4.0.2/utmp.c
 --- origsrc/screen-4.0.2/utmp.c	2003-09-08 09:27:17.000000000 -0500
 +++ src/screen-4.0.2/utmp.c	2006-05-24 15:34:28.328125000 -0500
 @@ -89,7 +89,7 @@
