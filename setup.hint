@@ -1,5 +1,5 @@
 category: Shells
-requires: cygwin crypt libncurses8
+requires: crypt libncurses8
 sdesc: "Virtual terminal multiplexer"
 ldesc: "Screen is a full-screen window manager that multiplexes a physical
 terminal between several processes, typically interactive shells. Each
